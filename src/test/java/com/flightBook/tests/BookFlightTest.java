@@ -3,16 +3,23 @@ package com.flightBook.tests;
 import com.flighBook.pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class BookFlightTest {
 
     private WebDriver driver;
+    private String noOfPassengers;
+    private String expectedPrice;
 
     @BeforeTest
-    public void setUpDriver() {
-        //set path
+    @Parameters({"noOfPassengers", "expectedPrice"})
+    public void setUpDriver(String noOfPassengers, String expectedPrice) {
+        this.noOfPassengers = noOfPassengers;
+        this.expectedPrice = expectedPrice;
         System.setProperty("webdriver.chrome.driver", "C:/Users/deepa/Downloads/BrowserDrivers/chromedriver.exe");
         this.driver = new ChromeDriver();
     }
@@ -35,7 +42,7 @@ public class BookFlightTest {
     @Test(dependsOnMethods = "registrationConfirmationPage")
     public void flightDetailsPage() {
         FlightDetailsPage flightDetailsPage = new FlightDetailsPage(driver);
-        flightDetailsPage.selectPassengers("2");
+        flightDetailsPage.selectPassengers(noOfPassengers);
         flightDetailsPage.goToFindFlightsPage();
     }
 
@@ -49,7 +56,13 @@ public class BookFlightTest {
     @Test(dependsOnMethods = "findFlightPage")
     public void flightConfirmationPage() {
         FlightConfirmationPage flightConfirmationPage = new FlightConfirmationPage(driver);
-        flightConfirmationPage.printConfirmation();
+        String actualPrice = flightConfirmationPage.getPrice();
+        Assert.assertEquals(actualPrice, expectedPrice);
+    }
+
+    @AfterTest
+    public void tearDown() {
+        this.driver.quit();
     }
 }
 
