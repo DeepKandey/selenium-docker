@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#!/bin/bash
 # Environment Variables
 # HUB_HOST
 # BROWSER
