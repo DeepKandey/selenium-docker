@@ -22,11 +22,13 @@ public class BaseTest {
         // HUB_HOST => localhost / 10.0.13 / hostname
 
         String host = "localhost";
-        DesiredCapabilities dc = DesiredCapabilities.chrome();
+        DesiredCapabilities dc;
 
         if (System.getProperty("BROWSER") != null &&
                 System.getProperty("BROWSER").equalsIgnoreCase("firefox")) {
             dc = DesiredCapabilities.firefox();
+        }else{
+            dc= DesiredCapabilities.chrome();
         }
 
         if (System.getProperty("HUB_HOST") != null) {
