@@ -1,7 +1,6 @@
 package com.tests;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
@@ -34,7 +33,6 @@ public class BaseTest {
         if (System.getProperty("HUB_HOST") != null) {
             host = System.getProperty("HUB_HOST");
         }
-
 
         String testName = ctx.getCurrentXmlTest().getName();
         String completeUrl = "http://" + host + ":4444/wd/hub";
