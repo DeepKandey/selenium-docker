@@ -6,14 +6,36 @@ services:
       - "4444:4444"
   chrome:
     image: selenium/node-chrome:3.141.59
-    shm_size: '1gb'
     depends_on:
       - hub
     environment:
       - HUB_HOST=hub
   firefox:
     image: selenium/node-firefox:3.141.59
+    shm_size: '1gb'
     depends_on:
       - hub
     environment:
       - HUB_HOST=hub
+  search-module:
+    image: deepkandey/selenium-docker:latest
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST=hub
+      - MODULE= search-module.xml
+    volumes:
+      - ./search-module-result:/usr/share/udemy/test-output
+  book-flight-module:
+    image: deepkandey/selenium-docker:latest
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - BROWSER=chrome
+      - HUB_HOST=hub
+      - MODULE= book-flight-module.xml
+    volumes:
+      - ./book-flight-module:/usr/share/udemy/test-output
